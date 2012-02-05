@@ -5,5 +5,6 @@
     <string name="app_name">Lecture4client</string>
     <string name="connect">Connect</string>
     <string name="sendMessage">Send Message</string>
+    <string name="text">txt</string>
 
 </resources>

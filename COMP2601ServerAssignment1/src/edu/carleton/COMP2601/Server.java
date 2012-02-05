@@ -104,6 +104,11 @@ public class Server implements Runnable, Reactor {
 			// Set serverRunning to true if we have connected
 			if (s.isConnected()) {
 				serverRunning = true;
+				InputStream is = s.getInputStream();
+				OutputStream os = s.getOutputStream();
+				dis = new ObjectInputStream(is);
+				dos = new ObjectOutputStream(os);
+				
 				System.out.println("Connection established.");
 			} else {
 				System.out.println("Not connected.");
@@ -111,10 +116,9 @@ public class Server implements Runnable, Reactor {
 
 			while (serverRunning) {
 
-				InputStream is = s.getInputStream();
-				OutputStream os = s.getOutputStream();
+
 				System.out.println("Runing Service...");
-				service(is, os);
+				handleEvents();
 			}
 
 			// Close the connection once we are done
@@ -122,8 +126,6 @@ public class Server implements Runnable, Reactor {
 			s.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
@@ -137,16 +139,12 @@ public class Server implements Runnable, Reactor {
 	 * @throws HeadlessException
 	 * @throws ClassNotFoundException
 	 */
-	public void service(InputStream is, OutputStream os)
-			throws HeadlessException, ClassNotFoundException {
+	public void handleEvents()
+			throws HeadlessException {
 
 		try {
-			dis = new ObjectInputStream(is);
-			dos = new ObjectOutputStream(os);
 
-			System.out.println("Reading...");
-			System.out.println("Available: " + dis.available());
-
+		
 			// Read
 			Message m = (Message) dis.readObject();
 
@@ -158,17 +156,8 @@ public class Server implements Runnable, Reactor {
 				h.handleEvent(m);
 			}
 
-			// Show that we read
-			// JOptionPane.showMessageDialog(null,
-			// "Received: "+ m.getType());
 
 			System.out.println("Received: message" + m.getType());
-
-
-			// Now we send back the formatted time
-			// Date date = new Date(longtime);
-			// String dateMessage = DateFormat.getInstance().format(date);
-			// dos.writeUTF(dateMessage);
 
 		} catch (UnknownHostException eh) {
 
@@ -176,6 +165,9 @@ public class Server implements Runnable, Reactor {
 
 		} catch (IOException eio) {
 			System.out.println("IO Exceptions");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
@@ -204,10 +196,6 @@ public class Server implements Runnable, Reactor {
 
 	}
 
-	@Override
-	public void handleEvents() {
-		// TODO Auto-generated method stub
 
-	}
 
 }

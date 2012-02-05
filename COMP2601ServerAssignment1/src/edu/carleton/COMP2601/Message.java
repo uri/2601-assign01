@@ -6,18 +6,27 @@ import java.util.HashMap;
 
 
 
-public class Message<E> implements Serializable, Event{
+public class Message implements Serializable, Event{
 	private String type;
-	private HashMap<String, E> body;
-	private Object valueType;
+	private HashMap<String, Object> body;
+	
 	
 	public static final String REQ_LIST_FILES= "list_file_req";
 	public static final String REPLY_LIST_FILES= "list_file_reply";
 	
-	public Message(String type, HashMap<String, E> map) {
+	public static final String REQ_LOGIN= "login_req";
+	public static final String REPLY_LOGIN= "login_reply";
+	
+	public static final String REQ_FILE= "file_req";
+	public static final String REPLY_FILE= "file_reply";
+	
+	public static final String KEY_FILE_LIST = "key_file_list";
+	public static final String KEY_FILE = "key_file";
+	
+	public Message(String type, HashMap<String, Object> body) {
 		this.type = type;
-		this.body = map;
-		valueType = (E)new Object();
+		this.body = body;
+
 	}
 	
 	
@@ -26,9 +35,11 @@ public class Message<E> implements Serializable, Event{
 	}
 
 
-	public HashMap<String, E> getBody() {
+	public HashMap<String, Object> getBody() {
 		return body;
 	}
+
+
 	
 
 }

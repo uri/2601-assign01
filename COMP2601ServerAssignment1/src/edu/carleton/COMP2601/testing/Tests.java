@@ -8,21 +8,10 @@ public class Tests {
 
 	public static void main(String[] args) {
 		
-		Message m = null;
+		String curString = "myfile.txt";
 		
-		String body = "Uri is the best";
-		String type = "req_type";
-		HashMap<String, String> map;
+		System.out.println(curString.substring(curString.length() - 3));
 		
-		
-		
-		map = new HashMap<String, String>();
-		map.put("list", "a b c");
-		map.put("value", "sexy");
-		
-		m = new Message<String>(body, map);
-		
-//		System.out.println("Get the type of the body= " + (m.getValueType() instanceof String));
 	}
 
 }
