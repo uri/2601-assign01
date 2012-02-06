@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name="edu.carleton.COMP2601.ListViewActivity"></activity>
-        <activity android:name="FileViewActivity"></activity>
+        <activity android:name="edu.carleton.COMP2601.FileViewActivity"></activity>
     </application>
     
     <!-- <activity android:name=".Assignment1Activity" android:label="@string/hello"></activity>  -->

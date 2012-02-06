@@ -26,8 +26,8 @@ public class Assignment1Activity extends Activity implements Runnable {
 
 	Message m;
 
-	private ObjectOutputStream dos;
-	private ObjectInputStream dis;
+	public static ObjectOutputStream dos;
+	public static ObjectInputStream dis;
 	private Socket client;
 	private InetSocketAddress address;
 	private Assignment1Activity parent;
@@ -114,8 +114,6 @@ public class Assignment1Activity extends Activity implements Runnable {
 				if (reply != null) {
 					Intent intent = new Intent(getApplicationContext(), ListViewActivity.class);
 					intent.putExtra("fileList", (ArrayList<String>)reply.getBody().get(Message.KEY_FILE_LIST));
-					intent.putExtra("outputStream", (Serializable)dos);
-					intent.putExtra("inputStream", (Serializable)dis);
 					intent.putExtra("state", state);
 					startActivity(intent);
 				}

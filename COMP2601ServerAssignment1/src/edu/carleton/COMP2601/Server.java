@@ -1,7 +1,10 @@
 package edu.carleton.COMP2601;
 
 import java.awt.HeadlessException;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -18,8 +21,8 @@ public class Server implements Runnable, Reactor {
 	private boolean serverRunning;
 	private HashMap<String, EventHandler> handlers;
 	
-	ObjectInputStream dis;
-	ObjectOutputStream dos;
+	private ObjectInputStream dis;
+	private ObjectOutputStream dos;
 
 	public static void main(String[] args) {
 		Server ns = new Server();
@@ -81,6 +84,46 @@ public class Server implements Runnable, Reactor {
 		registerHandler(Message.REQ_FILE, new EventHandler() {
 			public void handleEvent(Event e) {
 				// The user has requested the list of files...
+				String fileName = (String)e.getBody().get(Message.KEY_FILE);
+				String content = "";
+				
+				File file = new File("files" + File.separator + fileName);
+				if (file.exists()) {
+					try {
+						System.out.println("Found the file:" + file.getName());
+						FileReader reader = new FileReader(file);
+						BufferedReader br = new BufferedReader(reader);
+						
+						String currentLine = null;
+						currentLine = br.readLine();
+						
+						while (currentLine != null) {
+							content += currentLine + "\n";
+							currentLine = br.readLine();
+						}
+						
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				// We now have the content.
+				System.out.println("This is the content of the file: " + content);
+				
+				// Send the content back
+				try {
+					HashMap<String, Object> body = new HashMap<String, Object>();
+					body.put(Message.KEY_CONTENT, content);
+					
+					dos.writeObject(new Message(Message.REPLY_FILE, body));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	}
