@@ -12,9 +12,12 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.ImageIcon;
 
 public class Server implements Runnable, Reactor {
 
@@ -57,6 +60,11 @@ public class Server implements Runnable, Reactor {
 				
 				String directories[] = fileDirectory.list();
 				ArrayList<String> files = new ArrayList<String>();
+				HashMap<String, Object> body = new HashMap<String, Object>();
+				
+				
+				
+				// Read the directories
 				if (directories != null) {
 					for (String s : fileDirectory.list()) {
 						System.out.println("This is the name of the file: " + s);
@@ -64,8 +72,10 @@ public class Server implements Runnable, Reactor {
 					}
 					
 					// Send the message
-					HashMap<String, Object> body = new HashMap<String, Object>();
+					
 					body.put(Message.KEY_FILE_LIST, files);
+					
+					// TODO body puts Message.Key_Image
 					
 					try {
 						// Send the response
@@ -76,6 +86,7 @@ public class Server implements Runnable, Reactor {
 				} else {
 					System.out.println("Error file directory not found.");
 				}
+			
 				
 			}
 		});

@@ -44,10 +44,12 @@ public class ListViewActivity extends ListActivity implements Runnable {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		String item = (String) getListAdapter().getItem(position);
-		Toast.makeText(this, item + " selected", Toast.LENGTH_SHORT).show();
+		
 
 		this.position = position;
-		new Thread(this).start();
+		
+		if (fileList.get(position).substring(fileList.get(position).length() - 3).equals("txt"))
+			new Thread(this).start();
 
 	}
 

@@ -23,6 +23,7 @@ public class Message implements Serializable, Event{
 	public static final String KEY_FILE_LIST = "key_file_list";
 	public static final String KEY_FILE = "key_file";
 	public static final String KEY_CONTENT = "key_content";
+	public static final String KEY_IMAGE = "key_image";
 	
 	public Message(String type, HashMap<String, Object> body) {
 		this.type = type;
